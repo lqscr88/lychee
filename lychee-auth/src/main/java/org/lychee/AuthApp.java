@@ -10,7 +10,6 @@ public class AuthApp {
 
     public static void main(String[] args) {
         SpringApplication.run(AuthApp.class, args);
-        System.out.println("\nSa-Token-OAuth Server端启动成功");
     }
 
 }
