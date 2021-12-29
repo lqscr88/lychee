@@ -2,7 +2,7 @@ server:
   port: 8505
 spring:
   application:
-    name: auth
+    name: lychee-auth
   cloud:
     nacos:
       discovery:

@@ -2,39 +2,39 @@ server:
   port: 8502
 spring:
   application:
-    name: gateway
+    name: lychee-gateway
   cloud:
     nacos:
       discovery:
         server-addr: localhost:8848
     gateway:
       routes: # ??????
-        - id: cs
-          uri: lb://cs
+        - id: lychee-cs
+          uri: lb://lychee-cs
           predicates:
             - Path=/resource/**
           filters:
             - StripPrefix=1
         - id: oauth2-auth-route
-          uri: lb://auth
+          uri: lb://lychee-auth
           predicates:
             - Path=/auth/**
           filters:
             - StripPrefix=1
         - id: oauth2-auth-login
-          uri: lb://auth
+          uri: lb://lychee-auth
           predicates:
             - Path=/login
           filters:
             - PreserveHostHeader
         - id: oauth2-auth-token
-          uri: lb://auth
+          uri: lb://lychee-auth
           predicates:
             - Path=/oauth/token
           filters:
             - PreserveHostHeader
         - id: oauth2-auth-authorize
-          uri: lb://auth
+          uri: lb://lychee-auth
           predicates:
             - Path=/oauth/authorize
           filters:
