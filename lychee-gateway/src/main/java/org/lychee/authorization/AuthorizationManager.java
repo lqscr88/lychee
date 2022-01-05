@@ -1,8 +1,6 @@
 package org.lychee.authorization;
 
 
-import org.lychee.constant.AuthConstant;
-import org.lychee.constant.RedisConstant;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.authorization.AuthorizationDecision;
 import org.springframework.security.authorization.ReactiveAuthorizationManager;

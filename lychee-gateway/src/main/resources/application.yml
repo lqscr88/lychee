@@ -1,5 +1,5 @@
 server:
-  port: 8502
+  port: 8501
 spring:
   application:
     name: lychee-gateway
@@ -55,7 +55,7 @@ spring:
     password:
 secure:
   ignore:
-    urls: # ???????
+    urls:
       - "/actuator/**"
       - "/oauth/token"
       - "/oauth/authorize"
