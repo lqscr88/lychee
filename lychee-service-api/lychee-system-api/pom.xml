@@ -3,46 +3,34 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
-        <artifactId>lychee</artifactId>
+        <artifactId>lychee-service-api</artifactId>
         <groupId>org.lychee</groupId>
         <version>1.0.0</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>lychee-auth</artifactId>
+    <artifactId>lychee-system-api</artifactId>
 
     <properties>
         <maven.compiler.source>8</maven.compiler.source>
         <maven.compiler.target>8</maven.compiler.target>
-        <!-- 定义sa-token版本号 -->
-        <sa-token-version>1.28.0</sa-token-version>
     </properties>
 
-
     <dependencies>
+        <!--feign依赖-->
         <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-web</artifactId>
-        </dependency>
-        <!-- redis -->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-data-redis</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.lychee</groupId>
-            <artifactId>lychee-common</artifactId>
-            <version>1.0.0</version>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-openfeign</artifactId>
         </dependency>
         <dependency>
             <groupId>org.lychee</groupId>
             <artifactId>lychee-mybaties-plus</artifactId>
             <version>1.0.0</version>
         </dependency>
-        <!--feign依赖-->
         <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-openfeign</artifactId>
+            <groupId>org.lychee</groupId>
+            <artifactId>lychee-common</artifactId>
+            <version>1.0.0</version>
         </dependency>
     </dependencies>
 

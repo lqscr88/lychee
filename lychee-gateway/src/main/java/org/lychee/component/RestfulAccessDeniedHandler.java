@@ -1,6 +1,5 @@
 package org.lychee.component;
 
-import org.lychee.api.CommonResult;
 import org.springframework.core.io.buffer.DataBuffer;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;

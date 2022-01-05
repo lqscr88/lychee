@@ -4,7 +4,6 @@ package org.lychee.config;
 import org.lychee.authorization.AuthorizationManager;
 import org.lychee.component.RestAuthenticationEntryPoint;
 import org.lychee.component.RestfulAccessDeniedHandler;
-import org.lychee.constant.AuthConstant;
 import org.lychee.filter.IgnoreUrlsRemoveJwtFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
