@@ -1,6 +1,7 @@
-package org.lychee.feign.user;
+package org.lychee.feign.role;
 
 import lombok.extern.slf4j.Slf4j;
+import org.lychee.entity.LycheeRole;
 import org.lychee.entity.LycheeUser;
 import org.springframework.stereotype.Component;
 
@@ -9,11 +10,11 @@ import org.springframework.stereotype.Component;
  */
 @Component
 @Slf4j
-public class UserApiFallback implements UserApi {
+public class RoleApiFallback implements RoleApi {
 
 
     @Override
-    public LycheeUser login(String username, String password) {
+    public LycheeRole selectRoleByUserId(Long userId) {
         log.info("feign调用失败");
         return null;
     }

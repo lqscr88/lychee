@@ -19,11 +19,13 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import lombok.AllArgsConstructor;
 import org.lychee.result.R;
-import org.lychee.utils.JwtUtil;
-import org.lychee.utils.RedisUtil;
+import org.lychee.service.LoginService;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
+import javax.annotation.Resource;
 
 /**
  * 认证模块
@@ -33,24 +35,19 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @AllArgsConstructor
 @Api(value = "用户授权认证", tags = "授权接口")
+@RequestMapping("oauth")
 public class AuthController {
 
+  @Resource
+  private LoginService loginService;
 
-  @PostMapping("oauth/token")
+
+  @PostMapping("/login")
   @ApiOperation(value = "获取认证token", notes = "传入租户ID:tenantId,账号:account,密码:password")
-  public R<String> token(@ApiParam(value = "授权类型", required = true) @RequestParam(defaultValue = "password", required = false) String grantType,
-                           @ApiParam(value = "刷新令牌") @RequestParam(required = false) String refreshToken,
-                           @ApiParam(value = "租户ID", required = true) @RequestParam(defaultValue = "000000", required = false) String tenantId,
-                           @ApiParam(value = "账号") @RequestParam(required = false) String account,
-                           @ApiParam(value = "密码") @RequestParam(required = false) String password) {
-    String key = "lychee";
-    String sign = JwtUtil
-            .createToken()
-            .setPayload("account", account)
-            .setPayload("password", password)
-            .setKey(key.getBytes())
-            .sign();
-    return R.data(sign);
+  public R<String> token(@ApiParam(value = "账号") @RequestParam(required = false) String account,
+                         @ApiParam(value = "密码") @RequestParam(required = false) String password) {
+    String token = loginService.getToken(account, password);
+    return R.data(token);
   }
 
 

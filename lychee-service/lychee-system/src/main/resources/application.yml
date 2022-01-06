@@ -3,6 +3,8 @@ server:
 spring:
   application:
     name: lychee-system
+  main:
+    allow-bean-definition-overriding: true #当遇到同样名字的时候，是否允许覆盖注册
   datasource:
     url: jdbc:mysql://localhost:3306/lychee?useUnicode=true&characterEncoding=utf-8&serverTimezone=Asia/Shanghai
     username: root
@@ -12,10 +14,23 @@ spring:
     nacos:
       discovery:
         server-addr: localhost:8848
+
+ribbon:
+  eager-load:
+     enabled: true # 开启即时加载（默认延迟加载），默认情况下Ribbon是懒加载的——首次请求Ribbon相关类才会初始化，这会导致首次请求过慢的问题，你可以配置饥饿加载，让Ribbon在应用启动时就初始化。
+     clients:
+        - lychee-system
+
+
 feign:
+  httpclient:
+    enabled: true
   client:
     config:
-      # 默认为所有的feign client做配置(注意和上例github-client是同级的)
       default:
-        connectTimeout: 5000                        # 连接超时时间
-        readTimeout: 5000                           # 读超时时间设置
+        connectTimeout: 50000                        # 连接超时时间
+        readTimeout: 50000                           # 读超时时间设置
+
+logging:
+  level:
+    org.lychee: debug
