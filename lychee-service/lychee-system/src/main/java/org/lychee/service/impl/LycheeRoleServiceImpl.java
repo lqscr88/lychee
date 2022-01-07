@@ -24,4 +24,9 @@ public class LycheeRoleServiceImpl extends ServiceImpl<LycheeRoleMapper, LycheeR
     public List<LycheeRole> selectRoleByUserId(Long userId) {
         return baseMapper.selectRoleByUserId(userId);
     }
+
+    @Override
+    public void deleteByRelationSurface(Long roleId) {
+         baseMapper.deleteByRelationSurface(roleId);
+    }
 }

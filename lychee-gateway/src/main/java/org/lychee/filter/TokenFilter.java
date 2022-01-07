@@ -11,7 +11,6 @@ import org.lychee.constant.TokenConstant;
 import org.lychee.provider.ResponseProvider;
 import org.lychee.utils.JwtUtil;
 import org.lychee.utils.RedisUtil;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
 import org.springframework.cloud.gateway.filter.GlobalFilter;
 import org.springframework.context.annotation.Configuration;
@@ -26,9 +25,10 @@ import reactor.core.publisher.Mono;
 
 import javax.annotation.Resource;
 import java.nio.charset.StandardCharsets;
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.concurrent.atomic.AtomicReference;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -72,7 +72,8 @@ public class TokenFilter implements GlobalFilter, Ordered {
             return unAuth(resp, AuthConstant.NO_AUTHORITY);
         }
         List<String> objects = Stream.of(permission).map(String::valueOf).collect(Collectors.toList());
-        if (objects.contains(path)){
+        List<Boolean> collect = objects.stream().map(path::contains).collect(Collectors.toList());
+        if (collect.contains(true)){
             return chain.filter(exchange); // 放
         }else {
             return unAuth(resp, AuthConstant.NO_AUTHORITY);
@@ -97,5 +98,4 @@ public class TokenFilter implements GlobalFilter, Ordered {
     public int getOrder() {
         return -100;
     }
-
 }

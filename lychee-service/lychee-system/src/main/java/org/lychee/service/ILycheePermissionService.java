@@ -16,4 +16,8 @@ import java.util.List;
 public interface ILycheePermissionService extends IService<LycheePermission> {
 
     List<LycheePermission> selectPermissionByRoleId(List<Long>  roleIds);
+
+    LycheePermission selectPermissionByRoleIdOne(Long roleId);
+
+    void insertByRelationSurface(Long permissionId, Long roleId);
 }

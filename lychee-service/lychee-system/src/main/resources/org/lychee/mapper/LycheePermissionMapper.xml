@@ -19,4 +19,15 @@
         </if>
     </select>
 
+
+    <select id="selectPermissionByRoleId" resultType="org.lychee.entity.LycheePermission">
+        SELECT <include refid="permissionSql"/> from lychee_role_permission zj
+        left JOIN lychee_permission permission on zj.permission_id=permission.id
+        where zj.role_id=#{roleId}
+    </select>
+
+    <insert id="insertByRelationSurface">
+        insert into lychee_role_permission(role_id, permission_id) values(#{roleId}, #{permissionId})
+    </insert>
+
 </mapper>

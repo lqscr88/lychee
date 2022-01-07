@@ -17,4 +17,8 @@ import java.util.List;
 public interface LycheePermissionMapper extends BaseMapper<LycheePermission> {
 
     List<LycheePermission> selectPermissionByRoleId(@Param("roleIds")List<Long>  roleIds);
+
+    LycheePermission selectPermissionByRoleIdOne(@Param("roleId")Long roleId);
+
+    void insertByRelationSurface(@Param("permissionId")Long permissionId,@Param("roleId") Long roleId);
 }

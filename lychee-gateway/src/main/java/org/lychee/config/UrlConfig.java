@@ -10,6 +10,5 @@ import java.util.List;
 @Configuration
 @ConfigurationProperties("skip")
 public class UrlConfig{
-
   private List<String> url;
 }

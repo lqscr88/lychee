@@ -8,12 +8,9 @@ import org.lychee.entity.LycheeUser;
 import org.lychee.result.R;
 import org.lychee.service.ILycheeUserService;
 import org.lychee.utils.JwtUtil;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
 import java.time.LocalDate;
@@ -35,17 +32,36 @@ public class LycheeUserController {
     private ILycheeUserService lycheeUserService;
 
     @PostMapping("add")
-    @ApiOperation(value = "获取认证token", notes = "传入租户ID:tenantId,账号:account,密码:password")
-    public R<String> token(@ApiParam(value = "账号") @RequestParam(required = false) String account,
+    @ApiOperation(value = "新增用户")
+    public R<String> add(@ApiParam(value = "账号") @RequestParam(required = false) String account,
                            @ApiParam(value = "密码") @RequestParam(required = false) String password) {
-        LycheeUser lycheeUser=new LycheeUser();
-        lycheeUser.setUsername(account);
-        lycheeUser.setPassword(password);
-        lycheeUser.setStatus(1);
-        lycheeUser.setCreateTime(LocalDate.now());
-        int insert = lycheeUserService.getBaseMapper().insert(lycheeUser);
-        return R.data(insert == 1?"更新成功":"更新失败");
+        int insert = lycheeUserService.getBaseMapper().insert(LycheeUser.builder().username(account).password(password).status(1).createTime(LocalDate.now()).build());
+        return R.data(insert == 1?"新增成功":"新增失败");
     }
+
+    @GetMapping("info/{userId}")
+    @ApiOperation(value = "查询用户信息")
+    public R<LycheeUser> info(@PathVariable("userId") Long userId) {
+        LycheeUser lycheeUser = lycheeUserService.getBaseMapper().selectOne(Wrappers.<LycheeUser>lambdaQuery().eq(LycheeUser::getId, userId));
+        return R.data(lycheeUser);
+    }
+
+    @PostMapping("update")
+    @ApiOperation(value = "更新用户信息")
+    public R<String> update(@RequestBody LycheeUser lycheeUser) {
+        int i = lycheeUserService.getBaseMapper().updateById(lycheeUser);
+        return R.data(i == 1?"更新成功":"更新失败");
+    }
+
+    @DeleteMapping("delete/{userId}")
+    @ApiOperation(value = "删除用户")
+    public R<String> delete(@PathVariable("userId") Long userId) {
+        int i = lycheeUserService.getBaseMapper().deleteById(userId);
+        return R.data(i == 1?"删除成功":"删除失败");
+    }
+
+
+
 
 
 }

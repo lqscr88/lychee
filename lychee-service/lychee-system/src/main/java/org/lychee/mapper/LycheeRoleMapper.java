@@ -19,4 +19,5 @@ public interface LycheeRoleMapper extends BaseMapper<LycheeRole> {
 
     List<LycheeRole> selectRoleByUserId(@Param("userId") Long userId);
 
+    void deleteByRelationSurface(@Param("roleId") Long roleId);
 }

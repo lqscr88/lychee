@@ -16,4 +16,6 @@ import java.util.List;
 public interface ILycheeRoleService extends IService<LycheeRole> {
 
     List<LycheeRole> selectRoleByUserId(Long userId);
+
+    void deleteByRelationSurface(Long roleId);
 }

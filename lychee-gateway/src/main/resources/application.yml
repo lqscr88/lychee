@@ -8,19 +8,15 @@ spring:
       discovery:
         server-addr: localhost:8848
     gateway:
-      routes: # ??????
+      routes:
         - id: lychee-system
           uri: lb://lychee-system
           predicates:
             - Path=/system/**
-          filters:
-            - StripPrefix=1
         - id: lychee-auth
           uri: lb://lychee-auth
           predicates:
             - Path=/auth/**
-          filters:
-            - StripPrefix=1
 
 skip:
   url:

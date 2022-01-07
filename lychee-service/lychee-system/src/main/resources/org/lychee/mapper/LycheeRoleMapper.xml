@@ -13,4 +13,8 @@
         where zj.user_id=#{userId}
     </select>
 
+    <delete id="selectRoleByUserId">
+        delete from lychee_user_role where role_id=#{roleId}
+    </delete>
+
 </mapper>

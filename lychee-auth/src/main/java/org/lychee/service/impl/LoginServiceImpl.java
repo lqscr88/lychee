@@ -61,7 +61,7 @@ public class LoginServiceImpl implements LoginService {
                 param.put(TokenConstant.TOKEN_PERMISSION, lycheePermission.stream().map(LycheePermission::getPermissionPath).collect(Collectors.toList()).toString().replace("[","").replace("]",""));
             }
         }
-        redisUtil.hmset(user.getId().toString(), param);
+        redisUtil.hmset(user.getId().toString(), param,60*60*2);
         return jwt.setKey(AuthConstant.JWT_KEY.getBytes()).sign();
     }
 }

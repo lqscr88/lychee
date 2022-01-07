@@ -23,4 +23,14 @@ public class LycheePermissionServiceImpl extends ServiceImpl<LycheePermissionMap
     public List<LycheePermission> selectPermissionByRoleId(List<Long>  roleIds) {
         return baseMapper.selectPermissionByRoleId(roleIds);
     }
+
+    @Override
+    public LycheePermission selectPermissionByRoleIdOne(Long roleId) {
+        return baseMapper.selectPermissionByRoleIdOne(roleId);
+    }
+
+    @Override
+    public void insertByRelationSurface(Long permissionId, Long roleId) {
+        baseMapper.insertByRelationSurface(permissionId,roleId);
+    }
 }
