@@ -15,4 +15,12 @@ public interface AuthConstant {
 	 */
 	String JWT_KEY = "lychee";
 
+	String MISSING_TOKEN="缺失令牌,鉴权失败";
+
+	String ILLEGAL_TOKEN="非法令牌";
+
+	String TOKEN_EXPIRED="令牌已过期";
+
+	String NO_AUTHORITY="没权限";
+
 }

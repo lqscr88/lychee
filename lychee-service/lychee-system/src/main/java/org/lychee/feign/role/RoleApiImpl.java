@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.*;
 import springfox.documentation.annotations.ApiIgnore;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 @ApiIgnore
 @RestController
@@ -18,7 +19,7 @@ public class RoleApiImpl implements RoleApi {
 
     @Override
     @GetMapping(API_PREFIX+"/user/{userId}")
-    public LycheeRole selectRoleByUserId(@PathVariable("userId") Long userId){
+    public List<LycheeRole> selectRoleByUserId(@PathVariable("userId") Long userId){
         return iLycheeRoleService.selectRoleByUserId(userId);
     }
 }

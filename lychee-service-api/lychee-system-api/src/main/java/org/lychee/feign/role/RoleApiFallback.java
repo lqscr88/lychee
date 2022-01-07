@@ -5,6 +5,8 @@ import org.lychee.entity.LycheeRole;
 import org.lychee.entity.LycheeUser;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+
 /**
  * feign调用容错处理
  */
@@ -14,7 +16,7 @@ public class RoleApiFallback implements RoleApi {
 
 
     @Override
-    public LycheeRole selectRoleByUserId(Long userId) {
+    public List<LycheeRole> selectRoleByUserId(Long userId) {
         log.info("feign调用失败");
         return null;
     }

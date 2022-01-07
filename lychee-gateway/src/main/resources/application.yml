@@ -9,33 +9,19 @@ spring:
         server-addr: localhost:8848
     gateway:
       routes: # ??????
-        - id: lychee-cs
-          uri: lb://lychee-cs
+        - id: lychee-system
+          uri: lb://lychee-system
           predicates:
-            - Path=/resource/**
+            - Path=/system/**
           filters:
             - StripPrefix=1
-        - id: oauth2-auth-route
+        - id: lychee-auth
           uri: lb://lychee-auth
           predicates:
             - Path=/auth/**
           filters:
             - StripPrefix=1
-        - id: oauth2-auth-login
-          uri: lb://lychee-auth
-          predicates:
-            - Path=/login
-          filters:
-            - PreserveHostHeader
-        - id: oauth2-auth-token
-          uri: lb://lychee-auth
-          predicates:
-            - Path=/oauth/token
-          filters:
-            - PreserveHostHeader
-        - id: oauth2-auth-authorize
-          uri: lb://lychee-auth
-          predicates:
-            - Path=/oauth/authorize
-          filters:
-            - PreserveHostHeader
+
+skip:
+  url:
+    - /auth/oauth/login

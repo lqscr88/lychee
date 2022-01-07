@@ -13,7 +13,7 @@
     <packaging>pom</packaging>
     <modules>
         <module>lychee-mybaties-plus</module>
-        <module>lychee-security</module>
+        <module>lychee-redis</module>
     </modules>
 
     <properties>

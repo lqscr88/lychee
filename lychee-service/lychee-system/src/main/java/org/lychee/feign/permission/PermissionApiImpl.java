@@ -5,12 +5,11 @@ import org.lychee.entity.LycheeRole;
 import org.lychee.feign.role.RoleApi;
 import org.lychee.service.ILycheePermissionService;
 import org.lychee.service.ILycheeRoleService;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import springfox.documentation.annotations.ApiIgnore;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 @ApiIgnore
 @RestController
@@ -22,8 +21,8 @@ public class PermissionApiImpl implements PermissionApi {
 
 
     @Override
-    @GetMapping(API_PREFIX+"/role/{roleId}")
-    public LycheePermission selectPermissionByRoleId(@PathVariable("roleId") Long roleId) {
-        return lycheePermissionService.selectPermissionByRoleId(roleId);
+    @PostMapping(API_PREFIX+"/role")
+    public List<LycheePermission> selectPermissionByRoleId(@RequestBody List<Long>  roleIds) {
+        return lycheePermissionService.selectPermissionByRoleId(roleIds);
     }
 }

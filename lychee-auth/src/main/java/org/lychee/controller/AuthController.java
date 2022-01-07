@@ -43,7 +43,7 @@ public class AuthController {
 
 
   @PostMapping("/login")
-  @ApiOperation(value = "获取认证token", notes = "传入租户ID:tenantId,账号:account,密码:password")
+  @ApiOperation(value = "获取认证token", notes = "账号:account,密码:password")
   public R<String> token(@ApiParam(value = "账号") @RequestParam(required = false) String account,
                          @ApiParam(value = "密码") @RequestParam(required = false) String password) {
     String token = loginService.getToken(account, password);

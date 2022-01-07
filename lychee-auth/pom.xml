@@ -24,32 +24,24 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
-        <!-- redis -->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-data-redis</artifactId>
-        </dependency>
+
         <dependency>
             <groupId>org.lychee</groupId>
             <artifactId>lychee-system-api</artifactId>
             <version>1.0.0</version>
             <exclusions>
                 <exclusion>
-                    <groupId>*</groupId>
-                    <artifactId>*</artifactId>
+                    <groupId>org.lychee</groupId>
+                    <artifactId>lychee-mybaties-plus</artifactId>
                 </exclusion>
             </exclusions>
         </dependency>
         <dependency>
             <groupId>org.lychee</groupId>
-            <artifactId>lychee-common</artifactId>
+            <artifactId>lychee-redis</artifactId>
             <version>1.0.0</version>
         </dependency>
-        <!--feign依赖-->
-        <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-openfeign</artifactId>
-        </dependency>
+
     </dependencies>
 
 </project>

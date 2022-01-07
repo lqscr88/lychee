@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.lychee.mapper.LycheePermissionMapper">
+
+
+
+    <sql id="permissionSql">
+        permission.id,permission.permission_path,permission.create_time
+    </sql>
+
+    <select id="selectPermissionByRoleId" resultType="org.lychee.entity.LycheePermission">
+        <if test="roleIds != null and roleIds.size() > 0 ">
+            SELECT <include refid="permissionSql"/> from lychee_role_permission zj
+            left JOIN lychee_permission permission on zj.permission_id=permission.id
+            where zj.role_id in
+            <foreach item="item" index="index" collection="roleIds" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
+    </select>
+
+</mapper>
