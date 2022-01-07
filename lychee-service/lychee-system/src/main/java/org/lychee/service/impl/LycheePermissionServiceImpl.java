@@ -33,4 +33,9 @@ public class LycheePermissionServiceImpl extends ServiceImpl<LycheePermissionMap
     public void insertByRelationSurface(Long permissionId, Long roleId) {
         baseMapper.insertByRelationSurface(permissionId,roleId);
     }
+
+    @Override
+    public void deleteByRelationSurface(Long permissionId) {
+        baseMapper.deleteByRelationSurface(permissionId);
+    }
 }

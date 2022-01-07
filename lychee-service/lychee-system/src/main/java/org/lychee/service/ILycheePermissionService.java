@@ -20,4 +20,6 @@ public interface ILycheePermissionService extends IService<LycheePermission> {
     LycheePermission selectPermissionByRoleIdOne(Long roleId);
 
     void insertByRelationSurface(Long permissionId, Long roleId);
+
+    void deleteByRelationSurface(Long permissionId);
 }

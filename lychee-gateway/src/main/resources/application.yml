@@ -17,6 +17,11 @@ spring:
           uri: lb://lychee-auth
           predicates:
             - Path=/auth/**
+  redis:
+    database: 0
+    port: 6379
+    host: localhost
+    password:
 
 skip:
   url:

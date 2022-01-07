@@ -55,10 +55,10 @@ public class LoginServiceImpl implements LoginService {
         param.put(TokenConstant.TOKEN_USERNAME,user.getUsername());
         List<LycheeRole> lycheeRole = roleApi.selectRoleByUserId(user.getId());
         if (CollectionUtil.isNotEmpty(lycheeRole)){
-            param.put(TokenConstant.TOKEN_ROLE,lycheeRole.stream().map(LycheeRole::getName).collect(Collectors.toList()).toString().replace("[","").replace("]",""));
+            param.put(TokenConstant.TOKEN_ROLE,lycheeRole.stream().map(LycheeRole::getName).collect(Collectors.joining(",")));
             List<LycheePermission> lycheePermission = permissionApi.selectPermissionByRoleId(lycheeRole.stream().map(LycheeRole::getId).collect(Collectors.toList()));
             if (CollectionUtil.isNotEmpty(lycheePermission)){
-                param.put(TokenConstant.TOKEN_PERMISSION, lycheePermission.stream().map(LycheePermission::getPermissionPath).collect(Collectors.toList()).toString().replace("[","").replace("]",""));
+                param.put(TokenConstant.TOKEN_PERMISSION, lycheePermission.stream().map(LycheePermission::getPermissionPath).collect(Collectors.joining(",")));
             }
         }
         redisUtil.hmset(user.getId().toString(), param,60*60*2);

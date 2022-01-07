@@ -21,4 +21,6 @@ public interface LycheePermissionMapper extends BaseMapper<LycheePermission> {
     LycheePermission selectPermissionByRoleIdOne(@Param("roleId")Long roleId);
 
     void insertByRelationSurface(@Param("permissionId")Long permissionId,@Param("roleId") Long roleId);
+
+    void deleteByRelationSurface(@Param("permissionId")Long permissionId);
 }

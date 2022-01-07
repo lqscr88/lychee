@@ -42,7 +42,7 @@ public class LycheeUserController {
     @GetMapping("info/{userId}")
     @ApiOperation(value = "查询用户信息")
     public R<LycheeUser> info(@PathVariable("userId") Long userId) {
-        LycheeUser lycheeUser = lycheeUserService.getBaseMapper().selectOne(Wrappers.<LycheeUser>lambdaQuery().eq(LycheeUser::getId, userId));
+        LycheeUser lycheeUser = lycheeUserService.getBaseMapper().selectById(userId);
         return R.data(lycheeUser);
     }
 
