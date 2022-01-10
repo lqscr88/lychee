@@ -77,7 +77,7 @@ public class LycheePermissionController {
     }
 
     @DeleteMapping("delete/{permissionId}/{userId}")
-    @ApiOperation(value = "删除角色")
+    @ApiOperation(value = "删除权限")
     public R<String> delete(@PathVariable("permissionId") Long permissionId,@PathVariable("userId") Long userId) {
         LycheePermission lycheePermission = lycheePermissionService.getBaseMapper().selectById(permissionId);
         int i = lycheePermissionService.getBaseMapper().deleteById(permissionId);

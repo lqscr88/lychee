@@ -25,10 +25,8 @@ import reactor.core.publisher.Mono;
 
 import javax.annotation.Resource;
 import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-import java.util.concurrent.atomic.AtomicReference;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -44,11 +42,12 @@ public class TokenFilter implements GlobalFilter, Ordered {
     private UrlConfig urlConfig;
 
 
+
     @Override
     public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
         System.out.println("进入到全局过滤器了........");
         String path = exchange.getRequest().getPath().toString();
-        if (!CollectionUtils.isEmpty(urlConfig.getUrl()) && urlConfig.getUrl().contains(path) || urlConfig.getUrl().contains("*")){
+        if (!CollectionUtils.isEmpty(urlConfig.getUrl()) && urlConfig.getUrl().contains(path) || urlConfig.getUrl().contains("/**")){
             return  chain.filter(exchange); // 放行
         }
         String token = exchange.getRequest().getHeaders().getFirst(TokenConstant.TOKEN_HEADER);

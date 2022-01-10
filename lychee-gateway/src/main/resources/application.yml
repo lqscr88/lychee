@@ -8,15 +8,18 @@ spring:
       discovery:
         server-addr: localhost:8848
     gateway:
-      routes:
-        - id: lychee-system
-          uri: lb://lychee-system
-          predicates:
-            - Path=/system/**
-        - id: lychee-auth
-          uri: lb://lychee-auth
-          predicates:
-            - Path=/auth/**
+      discovery:
+        locator:
+          enabled: true
+#      routes:
+#        - id: lychee-system
+#          uri: lb://lychee-system
+#          predicates:
+#            - Path=/system/**
+#        - id: lychee-auth
+#          uri: lb://lychee-auth
+#          predicates:
+#            - Path=/auth/**
   redis:
     database: 0
     port: 6379
@@ -26,3 +29,12 @@ spring:
 skip:
   url:
     - /auth/oauth/login
+    - /**
+
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+
