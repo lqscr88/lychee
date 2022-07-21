@@ -14,7 +14,6 @@
     <modules>
         <module>lychee-mybaties-plus</module>
         <module>lychee-redis</module>
-        <module>lychee-nacos</module>
     </modules>
 
     <properties>

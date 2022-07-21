@@ -81,6 +81,7 @@ public class LycheeApplication {
 //		props.setProperty("spring.cloud.nacos.config.file-extension", NacosConstant.NACOS_CONFIG_FORMAT);
 		props.setProperty("spring.cloud.nacos.config.shared-dataids", NacosConstant.SHARED_DATA_IDS);
 		props.setProperty("spring.cloud.nacos.config.refreshable-dataids", NacosConstant.SHARED_DATA_IDS);
+		//线上看情况是否需要指定命名空间
 		props.setProperty("spring.cloud.nacos.config.namespace", NacosConstant.NACOS_CONFIG_NAMESPACE);
 		props.setProperty("spring.cloud.nacos.config.extension-configs[0].data-id", appName+"."+NacosConstant.NACOS_CONFIG_FORMAT);
 		props.setProperty("spring.cloud.nacos.config.extension-configs[1].data-id", NacosConstant.NACOS_CONFIG_PREFIX+"."+NacosConstant.NACOS_CONFIG_FORMAT);
