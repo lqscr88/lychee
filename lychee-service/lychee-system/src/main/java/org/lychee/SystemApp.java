@@ -1,6 +1,7 @@
 package org.lychee;
 
-import org.springframework.boot.SpringApplication;
+import org.lychee.config.LycheeApplication;
+import org.lychee.constant.AppConstant;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.cloud.openfeign.EnableFeignClients;
@@ -11,7 +12,7 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
 public class SystemApp {
 
     public static void main(String[] args) {
-        SpringApplication.run(SystemApp.class, args);
+        LycheeApplication.run(AppConstant.APPLICATION_SYSTEM_NAME, SystemApp.class, args);
     }
 
 }

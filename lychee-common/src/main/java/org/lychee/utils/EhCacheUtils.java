@@ -2,7 +2,7 @@
  * Copyright © 2020-present hkt-star. All Rights Reserved.
  */
 
-package org.lychee.util;
+package org.lychee.utils;
  
 import cn.hutool.extra.spring.SpringUtil;
 import lombok.extern.slf4j.Slf4j;

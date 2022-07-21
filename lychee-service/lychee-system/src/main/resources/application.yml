@@ -1,53 +1,53 @@
-server:
-  port: 8503
-spring:
-  application:
-    name: lychee-system
-  main:
-    allow-bean-definition-overriding: true #当遇到同样名字的时候，是否允许覆盖注册
-  datasource:
-    url: jdbc:mysql://localhost:3306/lychee?useUnicode=true&characterEncoding=utf-8&serverTimezone=Asia/Shanghai
-    username: root
-    password: 123456
-    driver-class-name: com.mysql.cj.jdbc.Driver
-  cloud:
-    nacos:
-      discovery:
-        server-addr: localhost:8848
-  redis:
-    database: 0
-    port: 6379
-    host: localhost
-    password:
-
-ribbon:
-  eager-load:
-     enabled: true # 开启即时加载（默认延迟加载），默认情况下Ribbon是懒加载的——首次请求Ribbon相关类才会初始化，这会导致首次请求过慢的问题，你可以配置饥饿加载，让Ribbon在应用启动时就初始化。
-     clients:
-        - lychee-system
-
-
-feign:
-  # feign启用hystrix，才能熔断、降级
-  # hystrix:
-  # enabled: true
-  # 启用 okhttp 关闭默认 httpclient
-  httpclient:
-    enabled: false #关闭httpclient
-    # 配置连接池
-    max-connections: 200 #feign的最大连接数
-    max-connections-per-route: 50 #fegin单个路径的最大连接数
-  okhttp:
-    enabled: true
-  # 请求与响应的压缩以提高通信效率
-  compression:
-    request:
-      enabled: true
-      min-request-size: 2048
-      mime-types: text/xml,application/xml,application/json
-    response:
-      enabled: true
-
-logging:
-  level:
-    org.lychee: debug
+#server:
+#  port: 8503
+#spring:
+#  application:
+#    name: lychee-system
+#  main:
+#    allow-bean-definition-overriding: true #当遇到同样名字的时候，是否允许覆盖注册
+#  datasource:
+#    url: jdbc:mysql://localhost:3306/lychee?useUnicode=true&characterEncoding=utf-8&serverTimezone=Asia/Shanghai
+#    username: root
+#    password: 123456
+#    driver-class-name: com.mysql.cj.jdbc.Driver
+#  cloud:
+#    nacos:
+#      discovery:
+#        server-addr: localhost:8848
+#  redis:
+#    database: 0
+#    port: 6379
+#    host: localhost
+#    password:
+#
+#ribbon:
+#  eager-load:
+#     enabled: true # 开启即时加载（默认延迟加载），默认情况下Ribbon是懒加载的——首次请求Ribbon相关类才会初始化，这会导致首次请求过慢的问题，你可以配置饥饿加载，让Ribbon在应用启动时就初始化。
+#     clients:
+#        - lychee-system
+#
+#
+#feign:
+#  # feign启用hystrix，才能熔断、降级
+#  # hystrix:
+#  # enabled: true
+#  # 启用 okhttp 关闭默认 httpclient
+#  httpclient:
+#    enabled: false #关闭httpclient
+#    # 配置连接池
+#    max-connections: 200 #feign的最大连接数
+#    max-connections-per-route: 50 #fegin单个路径的最大连接数
+#  okhttp:
+#    enabled: true
+#  # 请求与响应的压缩以提高通信效率
+#  compression:
+#    request:
+#      enabled: true
+#      min-request-size: 2048
+#      mime-types: text/xml,application/xml,application/json
+#    response:
+#      enabled: true
+#
+#logging:
+#  level:
+#    org.lychee: debug

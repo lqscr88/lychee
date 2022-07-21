@@ -42,8 +42,6 @@ public class TokenFilter implements GlobalFilter, Ordered {
     private RedisUtil redisUtil;
     @Resource
     private UrlConfig urlConfig;
-    @Resource
-    private  RouteDefinitionLocator delegate;
 
 
 

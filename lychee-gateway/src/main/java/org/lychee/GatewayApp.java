@@ -1,8 +1,8 @@
 package org.lychee;
 
 
-import com.alibaba.cloud.nacos.ribbon.NacosServer;
-import org.springframework.boot.SpringApplication;
+import org.lychee.config.LycheeApplication;
+import org.lychee.constant.AppConstant;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
@@ -14,6 +14,6 @@ public class GatewayApp {
 
 
     public static void main(String[] args) {
-        SpringApplication.run(GatewayApp.class,args);
+        LycheeApplication.run(AppConstant.APPLICATION_GATEWAY_NAME, GatewayApp.class, args);
     }
 }
