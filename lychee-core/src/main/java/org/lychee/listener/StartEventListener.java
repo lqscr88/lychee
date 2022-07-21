@@ -1,4 +1,4 @@
-package org.lychee.config;
+package org.lychee.listener;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.web.context.WebServerInitializedEvent;

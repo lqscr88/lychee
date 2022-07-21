@@ -55,6 +55,11 @@
 			<artifactId>nacos-client</artifactId>
 			<version>${alibaba.nacos.version}</version>
 		</dependency>
+		<dependency>
+			<groupId>org.lychee</groupId>
+			<artifactId>lychee-common</artifactId>
+			<version>1.0.0</version>
+		</dependency>
 	</dependencies>
 
 </project>
