@@ -4,6 +4,7 @@ import cn.hutool.jwt.JWT;
 import com.alibaba.nacos.common.utils.StringUtils;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.lychee.config.UrlConfig;
 import org.lychee.constant.AuthConstant;
@@ -13,6 +14,7 @@ import org.lychee.utils.JwtUtil;
 import org.lychee.utils.RedisUtil;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
 import org.springframework.cloud.gateway.filter.GlobalFilter;
+import org.springframework.cloud.gateway.route.RouteDefinitionLocator;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.Ordered;
 import org.springframework.core.io.buffer.DataBuffer;
@@ -35,46 +37,49 @@ import java.util.stream.Stream;
 public class TokenFilter implements GlobalFilter, Ordered {
 
     @Resource
-    private  ObjectMapper objectMapper;
+    private ObjectMapper objectMapper;
     @Resource
     private RedisUtil redisUtil;
     @Resource
     private UrlConfig urlConfig;
+    @Resource
+    private  RouteDefinitionLocator delegate;
 
 
 
+    @SneakyThrows
     @Override
     public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
         System.out.println("进入到全局过滤器了........");
         String path = exchange.getRequest().getPath().toString();
-        if (!CollectionUtils.isEmpty(urlConfig.getUrl()) && urlConfig.getUrl().contains(path) || urlConfig.getUrl().contains("/**")){
-            return  chain.filter(exchange); // 放行
+        if (!CollectionUtils.isEmpty(urlConfig.getUrl()) && urlConfig.getUrl().contains(path) || urlConfig.getUrl().contains("/**")) {
+            return chain.filter(exchange); // 放行
         }
         String token = exchange.getRequest().getHeaders().getFirst(TokenConstant.TOKEN_HEADER);
         ServerHttpResponse resp = exchange.getResponse();
-        if (StringUtils.isBlank(token) ) {
+        if (StringUtils.isBlank(token)) {
             return unAuth(resp, AuthConstant.MISSING_TOKEN);
         }
         JWT jwt;
-        try{
-             jwt = JwtUtil.jxToken(token);
-        }catch (Exception e){
+        try {
+            jwt = JwtUtil.jxToken(token);
+        } catch (Exception e) {
             return unAuth(resp, AuthConstant.ILLEGAL_TOKEN);
         }
         String userId = jwt.getPayload(TokenConstant.TOKEN_USER_ID).toString();
         Object username = redisUtil.hget(userId, TokenConstant.TOKEN_USERNAME);
-        if (Objects.isNull(username)){
+        if (Objects.isNull(username)) {
             return unAuth(resp, AuthConstant.TOKEN_EXPIRED);
         }
         Object permission = redisUtil.hget(userId, TokenConstant.TOKEN_PERMISSION);
-        if (Objects.isNull(permission)){
+        if (Objects.isNull(permission)) {
             return unAuth(resp, AuthConstant.NO_AUTHORITY);
         }
         List<String> objects = Stream.of(permission).map(String::valueOf).collect(Collectors.toList());
         List<Boolean> collect = objects.stream().map(path::contains).collect(Collectors.toList());
-        if (collect.contains(true)){
-            return chain.filter(exchange); // 放
-        }else {
+        if (collect.contains(true)) {
+            return chain.filter(exchange);
+        } else {
             return unAuth(resp, AuthConstant.NO_AUTHORITY);
         }
     }

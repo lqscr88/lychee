@@ -1,6 +1,11 @@
+
 server:
   port: 8501
 spring:
+  cache:
+    type: CAFFEINE
+    caffeine:
+      spec: maximumSize=500,expireAfterAccess=600s
   application:
     name: lychee-gateway
   cloud:
@@ -10,12 +15,12 @@ spring:
     gateway:
       discovery:
         locator:
-          enabled: true
+          enabled: false
 #      routes:
 #        - id: lychee-system
 #          uri: lb://lychee-system
 #          predicates:
-#            - Path=/system/**
+#            - Path=/lychee-system/**
 #        - id: lychee-auth
 #          uri: lb://lychee-auth
 #          predicates:
@@ -32,9 +37,13 @@ skip:
     - /**
 
 
-management:
-  endpoints:
-    web:
-      exposure:
-        include: "*"
+# 暴露端点
+#management:
+#  endpoints:
+#    web:
+#      exposure:
+#        include: '*'
+#  endpoint:
+#    health:
+#      show-details: always
 
