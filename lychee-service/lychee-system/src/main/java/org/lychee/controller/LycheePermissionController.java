@@ -9,7 +9,7 @@ import io.swagger.annotations.ApiParam;
 import org.lychee.constant.TokenConstant;
 import org.lychee.entity.LycheePermission;
 import org.lychee.service.ILycheePermissionService;
-import org.lychee.utils.RedisUtil;
+import org.lychee.util.RedisUtil;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 

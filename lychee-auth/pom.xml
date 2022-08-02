@@ -26,9 +26,10 @@
             <artifactId>lychee-redis</artifactId>
             <version>1.0.0</version>
         </dependency>
+
         <dependency>
             <groupId>org.lychee</groupId>
-            <artifactId>lychee-boot</artifactId>
+            <artifactId>lychee-core-boot</artifactId>
             <version>1.0.0</version>
         </dependency>
         <dependency>

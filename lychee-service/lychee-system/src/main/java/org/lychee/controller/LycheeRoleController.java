@@ -6,7 +6,7 @@ import io.swagger.annotations.ApiParam;
 import org.lychee.constant.TokenConstant;
 import org.lychee.entity.LycheeRole;
 import org.lychee.service.ILycheeRoleService;
-import org.lychee.utils.RedisUtil;
+import org.lychee.util.RedisUtil;
 import org.springframework.web.bind.annotation.*;
 
 import org.springframework.stereotype.Controller;

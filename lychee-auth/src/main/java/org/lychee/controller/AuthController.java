@@ -1,7 +1,7 @@
 package org.lychee.controller;
 
+import cn.hutool.json.JSONObject;
 import com.alibaba.fastjson2.JSON;
-import com.alibaba.fastjson2.JSONObject;
 import com.nimbusds.jose.jwk.JWKSet;
 import com.nimbusds.jose.jwk.RSAKey;
 import io.swagger.annotations.Api;
@@ -10,11 +10,10 @@ import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import net.minidev.json.JSONUtil;
 import org.lychee.constant.SecurityConstant;
 import org.lychee.result.Result;
-import org.lychee.utils.JwtUtils;
-import org.lychee.utils.RequestUtils;
+import org.lychee.util.JwtUtils;
+import org.lychee.util.RequestUtils;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.oauth2.common.OAuth2AccessToken;
 import org.springframework.security.oauth2.provider.endpoint.TokenEndpoint;
@@ -49,10 +48,7 @@ public class AuthController {
             @ApiImplicitParam(name = "password", defaultValue = "123456", value = "用户密码")
     })
     @PostMapping("/token")
-    public Object postAccessToken(
-            @ApiIgnore Principal principal,
-            @ApiIgnore @RequestParam Map<String, String> parameters
-    ) throws HttpRequestMethodNotSupportedException {
+    public Object postAccessToken(@ApiIgnore Principal principal, @ApiIgnore @RequestParam Map<String, String> parameters) throws HttpRequestMethodNotSupportedException {
 
         /**
          * 获取登录认证的客户端ID
@@ -81,8 +77,8 @@ public class AuthController {
     @ApiOperation(value = "注销")
     @DeleteMapping("/logout")
     public Result logout() {
-        JwtUtils.getJwtPayload()
-        String jti = payload.getString(SecurityConstant.JWT_JTI); // JWT唯一标识
+        JSONObject payload = JwtUtils.getJwtPayload();
+        String jti = payload.getStr(SecurityConstant.JWT_JTI); // JWT唯一标识
         Long expireTime = payload.getLong(SecurityConstant.JWT_EXP); // JWT过期时间戳(单位：秒)
         if (expireTime != null) {
             long currentTime = System.currentTimeMillis() / 1000;// 当前时间（单位：秒）
