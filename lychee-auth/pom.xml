@@ -20,22 +20,7 @@
 
 
     <dependencies>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-web</artifactId>
-        </dependency>
 
-        <dependency>
-            <groupId>org.lychee</groupId>
-            <artifactId>lychee-system-api</artifactId>
-            <version>1.0.0</version>
-            <exclusions>
-                <exclusion>
-                    <groupId>org.lychee</groupId>
-                    <artifactId>lychee-mybaties-plus</artifactId>
-                </exclusion>
-            </exclusions>
-        </dependency>
         <dependency>
             <groupId>org.lychee</groupId>
             <artifactId>lychee-redis</artifactId>
@@ -43,9 +28,23 @@
         </dependency>
         <dependency>
             <groupId>org.lychee</groupId>
-            <artifactId>lychee-core</artifactId>
+            <artifactId>lychee-boot</artifactId>
             <version>1.0.0</version>
         </dependency>
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-oauth2</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-oauth2-jose</artifactId>
+        </dependency>
+
+
+
     </dependencies>
+
+
 
 </project>

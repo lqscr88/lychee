@@ -1,16 +1,11 @@
 package org.lychee.controller;
 
 
-import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import org.lychee.entity.LycheeUser;
-import org.lychee.result.R;
 import org.lychee.service.ILycheeUserService;
-import org.lychee.utils.JwtUtil;
 import org.springframework.web.bind.annotation.*;
-
-import org.springframework.stereotype.Controller;
 
 import javax.annotation.Resource;
 import java.time.LocalDate;

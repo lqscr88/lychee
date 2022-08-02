@@ -1,53 +1,106 @@
-package org.lychee.controller; /**
- * Copyright (c) 2018-2028, Chill Zhuang 庄骞 (smallchill@163.com).
- * <p>
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- * <p>
- * http://www.apache.org/licenses/LICENSE-2.0
- * <p>
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
+package org.lychee.controller;
 
+import com.alibaba.fastjson2.JSON;
+import com.alibaba.fastjson2.JSONObject;
+import com.nimbusds.jose.jwk.JWKSet;
+import com.nimbusds.jose.jwk.RSAKey;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
 import lombok.AllArgsConstructor;
-import org.lychee.result.R;
-import org.lychee.service.LoginService;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import lombok.extern.slf4j.Slf4j;
+import net.minidev.json.JSONUtil;
+import org.lychee.constant.SecurityConstant;
+import org.lychee.result.Result;
+import org.lychee.utils.JwtUtils;
+import org.lychee.utils.RequestUtils;
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.security.oauth2.common.OAuth2AccessToken;
+import org.springframework.security.oauth2.provider.endpoint.TokenEndpoint;
+import org.springframework.web.HttpRequestMethodNotSupportedException;
+import org.springframework.web.bind.annotation.*;
+import springfox.documentation.annotations.ApiIgnore;
 
-import javax.annotation.Resource;
+import java.security.KeyPair;
+import java.security.Principal;
+import java.security.interfaces.RSAPublicKey;
+import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
-/**
- * 认证模块
- *
- * @author Chill
- */
+@Api(tags = "认证中心")
 @RestController
+@RequestMapping("/oauth")
 @AllArgsConstructor
-@Api(value = "用户授权认证", tags = "授权接口")
-@RequestMapping("oauth")
+@Slf4j
 public class AuthController {
 
-  @Resource
-  private LoginService loginService;
+    private TokenEndpoint tokenEndpoint;
+    private RedisTemplate redisTemplate;
+    private KeyPair keyPair;
 
+    @ApiOperation(value = "OAuth2认证", notes = "登录入口")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "grant_type", defaultValue = "password", value = "授权模式", required = true),
+            @ApiImplicitParam(name = "client_id", defaultValue = "client", value = "Oauth2客户端ID", required = true),
+            @ApiImplicitParam(name = "client_secret", defaultValue = "123456", value = "Oauth2客户端秘钥", required = true),
+            @ApiImplicitParam(name = "refresh_token", value = "刷新token"),
+            @ApiImplicitParam(name = "username", defaultValue = "admin", value = "用户名"),
+            @ApiImplicitParam(name = "password", defaultValue = "123456", value = "用户密码")
+    })
+    @PostMapping("/token")
+    public Object postAccessToken(
+            @ApiIgnore Principal principal,
+            @ApiIgnore @RequestParam Map<String, String> parameters
+    ) throws HttpRequestMethodNotSupportedException {
 
-  @PostMapping("/login")
-  @ApiOperation(value = "获取认证token", notes = "账号:account,密码:password")
-  public R<String> token(@ApiParam(value = "账号") @RequestParam(required = false) String account,
-                         @ApiParam(value = "密码") @RequestParam(required = false) String password) {
-    String token = loginService.getToken(account, password);
-    return R.data(token);
-  }
+        /**
+         * 获取登录认证的客户端ID
+         *
+         * 兼容两种方式获取Oauth2客户端信息（client_id、client_secret）
+         * 方式一：client_id、client_secret放在请求路径中(注：当前版本已废弃)
+         * 方式二：放在请求头（Request Headers）中的Authorization字段，且经过加密，例如 Basic Y2xpZW50OnNlY3JldA== 明文等于 client:secret
+         */
+        String clientId = RequestUtils.getOAuth2ClientId();
+        log.info("OAuth认证授权 客户端ID:{}，请求参数：{}", clientId, JSON.toJSONString(parameters));
+
+        /**
+         * knife4j接口文档测试使用
+         *
+         * 请求头自动填充，token必须原生返回，不能有任何包装，否则显示 undefined undefined
+         * 账号/密码:  client_id/client_secret : client/123456
+         */
+        if (SecurityConstant.TEST_CLIENT_ID.equals(clientId)) {
+            return tokenEndpoint.postAccessToken(principal, parameters).getBody();
+        }
+
+        OAuth2AccessToken accessToken = tokenEndpoint.postAccessToken(principal, parameters).getBody();
+        return Result.success(accessToken);
+    }
+
+    @ApiOperation(value = "注销")
+    @DeleteMapping("/logout")
+    public Result logout() {
+        JwtUtils.getJwtPayload()
+        String jti = payload.getString(SecurityConstant.JWT_JTI); // JWT唯一标识
+        Long expireTime = payload.getLong(SecurityConstant.JWT_EXP); // JWT过期时间戳(单位：秒)
+        if (expireTime != null) {
+            long currentTime = System.currentTimeMillis() / 1000;// 当前时间（单位：秒）
+            if (expireTime > currentTime) { // token未过期，添加至缓存作为黑名单限制访问，缓存时间为token过期剩余时间
+                redisTemplate.opsForValue().set(SecurityConstant.TOKEN_BLACKLIST_PREFIX + jti, null, (expireTime - currentTime), TimeUnit.SECONDS);
+            }
+        } else { // token 永不过期则永久加入黑名单
+            redisTemplate.opsForValue().set(SecurityConstant.TOKEN_BLACKLIST_PREFIX + jti, null);
+        }
+        return Result.success("注销成功");
+    }
+
+    @ApiOperation(value = "获取公钥")
+    @GetMapping("/public-key")
+    public Map<String, Object> getPublicKey() {
+        RSAPublicKey publicKey = (RSAPublicKey) keyPair.getPublic();
+        RSAKey key = new RSAKey.Builder(publicKey).build();
+        return new JWKSet(key).toJSONObject();
+    }
 
 }

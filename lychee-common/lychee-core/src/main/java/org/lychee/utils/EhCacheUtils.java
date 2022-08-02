@@ -3,15 +3,11 @@
  */
 
 package org.lychee.utils;
- 
+
 import cn.hutool.extra.spring.SpringUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cache.Cache;
 import org.springframework.cache.CacheManager;
-import org.springframework.stereotype.Component;
-
-import java.util.Objects;
-import java.util.Optional;
 
 /**
  * ehcache缓存操作工具类

@@ -11,6 +11,7 @@
 
     <artifactId>lychee-tools</artifactId>
     <packaging>pom</packaging>
+
     <modules>
         <module>lychee-mybaties-plus</module>
         <module>lychee-redis</module>

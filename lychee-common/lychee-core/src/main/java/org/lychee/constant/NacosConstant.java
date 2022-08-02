@@ -26,7 +26,6 @@ public interface NacosConstant {
 	 * nacos 地址
 	 */
 	String NACOS_ADDR = "127.0.0.1:8848";
-
 	/**
 	 * nacos 配置前缀
 	 */
@@ -35,18 +34,14 @@ public interface NacosConstant {
 	 * nacos 配置前缀
 	 */
 	String NACOS_CONFIG_NAMESPACE = "5c0fd2fd-9ab9-498b-aad0-bd992c565eb9";
-
 	/**
 	 * nacos 配置文件类型
 	 */
 	String NACOS_CONFIG_FORMAT = "properties";
 	/**
-	 * nacos 组配置后缀
+	 * nacos 公共配置文件类型
 	 */
-	String NACOS_GROUP_SUFFIX = "-group";
-
 	String SHARED_DATA_IDS = "lychee-datasource.properties";
-
 	/**
 	 * 构建服务对应的 dataId
 	 *
@@ -57,7 +52,6 @@ public interface NacosConstant {
 	static String dataId(String appName, String profile) {
 		return dataId(appName, profile, NACOS_CONFIG_FORMAT);
 	}
-
 	/**
 	 * 构建服务对应的 dataId
 	 *
