@@ -1,6 +1,5 @@
 package org.lychee.feign.user;
 
-import org.apache.ibatis.annotations.Param;
 import org.lychee.entity.LycheeUser;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,4 +14,7 @@ public interface UserApi {
 
     @PostMapping(API_PREFIX+"/login")
     LycheeUser login(@RequestParam("username") String username, @RequestParam("password") String password);
+
+    @PostMapping(API_PREFIX+"/login/username")
+    LycheeUser loadUserByUsername(@RequestParam("username") String username);
 }

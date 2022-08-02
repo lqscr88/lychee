@@ -27,4 +27,12 @@ public class UserApiImpl implements UserApi {
                         .eq(LycheeUser::getUsername,username)
                         .eq(LycheeUser::getPassword,password));
     }
+
+    @Override
+    @PostMapping(API_PREFIX+"/login/username")
+    public LycheeUser loadUserByUsername(@RequestParam("username") String username) {
+        return lycheeUserService
+                .getOne(Wrappers.<LycheeUser>lambdaQuery()
+                        .eq(LycheeUser::getUsername,username));
+    }
 }

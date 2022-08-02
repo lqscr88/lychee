@@ -17,4 +17,10 @@ public class UserApiFallback implements UserApi {
         log.info("feign调用失败");
         return null;
     }
+
+    @Override
+    public LycheeUser loadUserByUsername(String username) {
+        log.info("feign调用失败");
+        return null;
+    }
 }

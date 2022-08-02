@@ -8,6 +8,7 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import org.lychee.constant.TokenConstant;
 import org.lychee.entity.LycheePermission;
+import org.lychee.result.Result;
 import org.lychee.service.ILycheePermissionService;
 import org.lychee.util.RedisUtil;
 import org.springframework.stereotype.Controller;
@@ -39,7 +40,7 @@ public class LycheePermissionController {
 
     @PostMapping("add")
     @ApiOperation(value = "新增权限")
-    public R<String> add(@ApiParam(value = "模块名称") @RequestParam(required = false) String name,Long roleId,Long userId) {
+    public Result<String> add(@ApiParam(value = "模块名称") @RequestParam(required = false) String name,Long roleId,Long userId) {
         LycheePermission lycheePermission = lycheePermissionService.getBaseMapper().selectOne(Wrappers.<LycheePermission>lambdaQuery().eq(LycheePermission::getPermissionName, name));
         if (Objects.nonNull(lycheePermission)){
             lycheePermissionService.insertByRelationSurface(lycheePermission.getId(),roleId);
@@ -52,26 +53,26 @@ public class LycheePermissionController {
                 redisUtil.hset(userId.toString(),TokenConstant.TOKEN_PERMISSION, String.join(",", collect));
             }
         }
-        return R.data("新增成功");
+        return Result.success("新增成功");
     }
 
     @GetMapping("info/{roleId}")
     @ApiOperation(value = "根据角色id查询权限")
-    public R<LycheePermission> info(@PathVariable("roleId") Long roleId) {
+    public Result<LycheePermission> info(@PathVariable("roleId") Long roleId) {
         LycheePermission lycheePermission = lycheePermissionService.selectPermissionByRoleIdOne(roleId);
-        return R.data(lycheePermission);
+        return Result.success(lycheePermission);
     }
 
     @PostMapping("info")
     @ApiOperation(value = "根据角色ids查询权限")
-    public R<List<LycheePermission>> info(List<Long> roleIds) {
+    public Result<List<LycheePermission>> info(List<Long> roleIds) {
         List<LycheePermission> lycheePermission = lycheePermissionService.selectPermissionByRoleId(roleIds);
-        return R.data(lycheePermission);
+        return Result.success(lycheePermission);
     }
 
     @DeleteMapping("delete/{permissionId}/{userId}")
     @ApiOperation(value = "删除权限")
-    public R<String> delete(@PathVariable("permissionId") Long permissionId,@PathVariable("userId") Long userId) {
+    public Result<String> delete(@PathVariable("permissionId") Long permissionId,@PathVariable("userId") Long userId) {
         LycheePermission lycheePermission = lycheePermissionService.getBaseMapper().selectById(permissionId);
         int i = lycheePermissionService.getBaseMapper().deleteById(permissionId);
         lycheePermissionService.deleteByRelationSurface(permissionId);
@@ -82,7 +83,7 @@ public class LycheePermissionController {
             redisUtil.hset(userId.toString(),TokenConstant.TOKEN_PERMISSION, String.join(",", collect));
 
         }
-        return R.data(i == 1?"删除成功":"删除失败");
+        return Result.success(i == 1?"删除成功":"删除失败");
     }
 
 

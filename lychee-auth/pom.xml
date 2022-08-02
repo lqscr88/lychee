@@ -32,10 +32,28 @@
             <artifactId>lychee-core-boot</artifactId>
             <version>1.0.0</version>
         </dependency>
+        <dependency>
+            <groupId>org.lychee</groupId>
+            <artifactId>lychee-system-api</artifactId>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.lychee</groupId>
+                    <artifactId>lychee-mybaties-plus</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.lychee</groupId>
+                    <artifactId>lychee-common</artifactId>
+                </exclusion>
+            </exclusions>
+            <version>1.0.0</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-security</artifactId>
+        </dependency>
 
 
     </dependencies>
-
 
 
 </project>

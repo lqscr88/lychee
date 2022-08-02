@@ -51,34 +51,11 @@
             <version>${alibaba.nacos.version}</version>
         </dependency>
 
+
         <dependency>
             <groupId>org.lychee</groupId>
             <artifactId>lychee-common</artifactId>
             <version>1.0.0</version>
-        </dependency>
-
-        <!-- JWT工具 -->
-        <dependency>
-            <groupId>com.nimbusds</groupId>
-            <artifactId>nimbus-jose-jwt</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>org.mapstruct</groupId>
-            <artifactId>mapstruct</artifactId>
-            <version>1.5.0.RC1</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.mapstruct</groupId>
-            <artifactId>mapstruct-jdk8</artifactId>
-            <version>1.5.0.RC1</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.mapstruct</groupId>
-            <artifactId>mapstruct-processor</artifactId>
-            <version>1.5.0.RC1</version>
         </dependency>
 
     </dependencies>

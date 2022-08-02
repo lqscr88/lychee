@@ -4,6 +4,7 @@ package org.lychee.controller;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import org.lychee.entity.LycheeUser;
+import org.lychee.result.Result;
 import org.lychee.service.ILycheeUserService;
 import org.springframework.web.bind.annotation.*;
 
@@ -28,31 +29,31 @@ public class LycheeUserController {
 
     @PostMapping("add")
     @ApiOperation(value = "新增用户")
-    public R<String> add(@ApiParam(value = "账号") @RequestParam(required = false) String account,
-                           @ApiParam(value = "密码") @RequestParam(required = false) String password) {
+    public Result<String> add(@ApiParam(value = "账号") @RequestParam(required = false) String account,
+                              @ApiParam(value = "密码") @RequestParam(required = false) String password) {
         int insert = lycheeUserService.getBaseMapper().insert(LycheeUser.builder().username(account).password(password).status(1).createTime(LocalDate.now()).build());
-        return R.data(insert == 1?"新增成功":"新增失败");
+        return Result.success(insert == 1?"新增成功":"新增失败");
     }
 
     @GetMapping("info/{userId}")
     @ApiOperation(value = "查询用户信息")
-    public R<LycheeUser> info(@PathVariable("userId") Long userId) {
+    public Result<LycheeUser> info(@PathVariable("userId") Long userId) {
         LycheeUser lycheeUser = lycheeUserService.getBaseMapper().selectById(userId);
-        return R.data(lycheeUser);
+        return Result.success(lycheeUser);
     }
 
     @PostMapping("update")
     @ApiOperation(value = "更新用户信息")
-    public R<String> update(@RequestBody LycheeUser lycheeUser) {
+    public Result<String> update(@RequestBody LycheeUser lycheeUser) {
         int i = lycheeUserService.getBaseMapper().updateById(lycheeUser);
-        return R.data(i == 1?"更新成功":"更新失败");
+        return Result.success(i == 1?"更新成功":"更新失败");
     }
 
     @DeleteMapping("delete/{userId}")
     @ApiOperation(value = "删除用户")
-    public R<String> delete(@PathVariable("userId") Long userId) {
+    public Result<String> delete(@PathVariable("userId") Long userId) {
         int i = lycheeUserService.getBaseMapper().deleteById(userId);
-        return R.data(i == 1?"删除成功":"删除失败");
+        return Result.success(i == 1?"删除成功":"删除失败");
     }
 
 
