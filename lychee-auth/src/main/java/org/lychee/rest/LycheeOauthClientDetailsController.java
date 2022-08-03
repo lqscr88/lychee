@@ -1,6 +1,11 @@
 package org.lychee.rest;
 
 
+import io.swagger.annotations.ApiOperation;
+import org.lychee.entity.LycheePermission;
+import org.lychee.result.Result;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -15,5 +20,12 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("client")
 public class LycheeOauthClientDetailsController {
+
+
+    @GetMapping("cs")
+    @ApiOperation(value = "测试")
+    public Result<Object> info() {
+        return Result.success("cs");
+    }
 
 }
