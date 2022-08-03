@@ -45,7 +45,6 @@ public class SystemUserDetailsService implements UserDetailsService {
         List<GrantedAuthority> authorities = new ArrayList<>();
         // 用户可以访问的资源名称（或者说用户所拥有的权限） 注意：必须"ROLE_"开头
 //        authorities.add(new SimpleGrantedAuthority("ROLE_"+ userInfo.getRole()));
-        User userDetails = new User(lycheeUser.getUsername(),passwordEncoder.encode(lycheeUser.getPassword()),authorities);
-        return userDetails;
+        return new User(lycheeUser.getUsername(),passwordEncoder.encode(lycheeUser.getPassword()),authorities);
     }
 }

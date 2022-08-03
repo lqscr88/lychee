@@ -51,13 +51,21 @@
             <version>${alibaba.nacos.version}</version>
         </dependency>
 
-
+        <!-- 配置caffeine -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-cache</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.github.ben-manes.caffeine</groupId>
+            <artifactId>caffeine</artifactId>
+        </dependency>
         <dependency>
             <groupId>org.lychee</groupId>
             <artifactId>lychee-common</artifactId>
             <version>1.0.0</version>
+            <scope>compile</scope>
         </dependency>
-
     </dependencies>
 
 </project>

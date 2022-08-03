@@ -38,10 +38,6 @@
             <exclusions>
                 <exclusion>
                     <groupId>org.lychee</groupId>
-                    <artifactId>lychee-mybaties-plus</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>org.lychee</groupId>
                     <artifactId>lychee-common</artifactId>
                 </exclusion>
             </exclusions>
@@ -50,6 +46,18 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-security</artifactId>
+        </dependency>
+
+
+        <!-- OAuth2 认证服务器-->
+        <dependency>
+            <groupId>org.springframework.security.oauth.boot</groupId>
+            <artifactId>spring-security-oauth2-autoconfigure</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-oauth2-jose</artifactId>
         </dependency>
 
 

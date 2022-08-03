@@ -1,37 +1,37 @@
-server:
-  port: 8501
-spring:
+#server:
+#  port: 8501
+#spring:
 #  cache:
 #    type: CAFFEINE
 #    caffeine:
 #      spec: maximumSize=500,expireAfterAccess=600s
-  application:
-    name: lychee-gateway
-  cloud:
-    nacos:
-      discovery:
-        server-addr: localhost:8848
-    gateway:
-      discovery:
-        locator:
-          enabled: true
-#      routes:
-#        - id: lychee-system
-#          uri: lb://lychee-system
-#          predicates:
-#            - Path=/lychee-system/**
-#        - id: lychee-auth
-#          uri: lb://lychee-auth
-#          predicates:
-#            - Path=/auth/**
-  redis:
-    database: 0
-    port: 6379
-    host: localhost
-    password:
-
-skip:
-  url:
-    - /auth/oauth/login
-    - /**
-
+#  application:
+#    name: lychee-gateway
+#  cloud:
+#    nacos:
+#      discovery:
+#        server-addr: localhost:8848
+#    gateway:
+#      discovery:
+#        locator:
+#          enabled: true
+##      routes:
+##        - id: lychee-system
+##          uri: lb://lychee-system
+##          predicates:
+##            - Path=/lychee-system/**
+##        - id: lychee-auth
+##          uri: lb://lychee-auth
+##          predicates:
+##            - Path=/auth/**
+#  redis:
+#    database: 0
+#    port: 6379
+#    host: localhost
+#    password:
+#
+#skip:
+#  url:
+#    - /auth/oauth/login
+#    - /**
+#
