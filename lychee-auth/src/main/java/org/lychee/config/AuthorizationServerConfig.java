@@ -1,21 +1,29 @@
 package org.lychee.config;
 
 import cn.hutool.core.map.MapUtil;
+import cn.hutool.core.util.StrUtil;
+import cn.hutool.http.HttpStatus;
+import cn.hutool.json.JSONUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.lychee.constant.SecurityConstant;
 import org.lychee.detail.SystemUserDetails;
 import org.lychee.detail.SystemUserDetailsService;
+import org.lychee.result.Result;
+import org.lychee.result.ResultCode;
 import org.lychee.service.impl.LycheeOauthClientDetailsServiceImpl;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.ProviderManager;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.oauth2.common.DefaultOAuth2AccessToken;
 import org.springframework.security.oauth2.common.exceptions.OAuth2Exception;
@@ -32,12 +40,18 @@ import org.springframework.security.oauth2.provider.token.*;
 import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
 import org.springframework.security.oauth2.provider.token.store.JwtTokenStore;
 import org.springframework.security.oauth2.provider.token.store.KeyStoreKeyFactory;
+import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.authentication.preauth.PreAuthenticatedAuthenticationProvider;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.filter.CorsFilter;
 import sun.security.util.SecurityConstants;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 import java.security.KeyPair;
 import java.util.*;
+import java.util.stream.Collectors;
 
 
 /**
@@ -47,6 +61,7 @@ import java.util.*;
 @EnableAuthorizationServer
 @RequiredArgsConstructor
 @Slf4j
+@EnableGlobalMethodSecurity(securedEnabled = true)
 public class AuthorizationServerConfig  extends AuthorizationServerConfigurerAdapter {
 
     @Resource
@@ -139,10 +154,24 @@ public class AuthorizationServerConfig  extends AuthorizationServerConfigurerAda
     }
 
     @Override
-    public void configure(AuthorizationServerSecurityConfigurer security) throws Exception {
-        //允许表单提交
-        security.allowFormAuthenticationForClients()
-                .checkTokenAccess("permitAll()");
+    public void configure(AuthorizationServerSecurityConfigurer security) {
+        /**
+         * 配置oauth2服务跨域
+         */
+        CorsConfigurationSource source = request -> {
+            CorsConfiguration corsConfiguration = new CorsConfiguration();
+            corsConfiguration.addAllowedHeader("*");
+            corsConfiguration.addAllowedOrigin(request.getHeader( HttpHeaders.ORIGIN));
+            corsConfiguration.addAllowedMethod("*");
+            corsConfiguration.setAllowCredentials(true);
+            corsConfiguration.setMaxAge(3600L);
+            return corsConfiguration;
+        };
+
+        security.tokenKeyAccess("permitAll()")
+                .checkTokenAccess("permitAll()")
+                .allowFormAuthenticationForClients()
+                .addTokenEndpointAuthenticationFilter(new CorsFilter(source));
     }
 
 
@@ -153,6 +182,9 @@ public class AuthorizationServerConfig  extends AuthorizationServerConfigurerAda
     public TokenEnhancer tokenEnhancer() {
         return (accessToken, authentication) -> {
             Map<String, Object> additionalInfo = MapUtil.newHashMap();
+            if (authentication.getUserAuthentication()==null){
+                return accessToken;
+            }
             Object principal = authentication.getUserAuthentication().getPrincipal();
             if (principal instanceof SystemUserDetails) {
                 SystemUserDetails systemUserDetails = (SystemUserDetails) principal;
@@ -180,7 +212,6 @@ public class AuthorizationServerConfig  extends AuthorizationServerConfigurerAda
             }
         };
     }
-
 
 
 

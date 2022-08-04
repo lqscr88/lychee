@@ -1,6 +1,5 @@
 package org.lychee.service.impl;
 
-import com.github.yulichang.query.MPJQueryWrapper;
 import org.lychee.entity.LycheeRole;
 import org.lychee.mapper.LycheeRoleMapper;
 import org.lychee.service.ILycheeRoleService;

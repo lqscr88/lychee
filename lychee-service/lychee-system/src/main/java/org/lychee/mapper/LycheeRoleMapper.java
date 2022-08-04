@@ -1,6 +1,5 @@
 package org.lychee.mapper;
 
-import com.github.yulichang.base.MPJBaseMapper;
 import org.apache.ibatis.annotations.Param;
 import org.lychee.entity.LycheeRole;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;

@@ -14,6 +14,7 @@ import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -27,8 +28,6 @@ public class SystemUserDetailsService implements UserDetailsService {
 
     @Resource
     private UserApi userApi;
-    @Resource
-    private PasswordEncoder passwordEncoder;
 
     @Override
     public UserDetails loadUserByUsername(String userName) throws UsernameNotFoundException {
@@ -44,7 +43,8 @@ public class SystemUserDetailsService implements UserDetailsService {
         //定义权限列表.
         List<GrantedAuthority> authorities = new ArrayList<>();
         // 用户可以访问的资源名称（或者说用户所拥有的权限） 注意：必须"ROLE_"开头
-//        authorities.add(new SimpleGrantedAuthority("ROLE_"+ userInfo.getRole()));
-        return new SystemUserDetails(lycheeUser);
+        authorities.add(new SimpleGrantedAuthority("ROLE_"+ "ADMIN"));
+
+        return new SystemUserDetails(lycheeUser, authorities);
     }
 }

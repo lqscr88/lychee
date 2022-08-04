@@ -10,7 +10,9 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 
 /**
@@ -33,20 +35,20 @@ public class SystemUserDetails implements UserDetails {
     private String username;
     private String password;
     private Boolean enabled;
-    private Collection<SimpleGrantedAuthority> authorities;
+    private Collection<GrantedAuthority> authorities;
 
     /**
      * 系统管理用户
      */
-    public SystemUserDetails(LycheeUser lycheeUser) {
+    public SystemUserDetails(LycheeUser lycheeUser, List<GrantedAuthority> roles) {
         this.setUserId(lycheeUser.getId());
         this.setUsername(lycheeUser.getUsername());
         this.setPassword(PasswordEncoderFactories.createDelegatingPasswordEncoder().encode(lycheeUser.getPassword()));
         this.setEnabled(true);
-//        if (CollectionUtil.isNotEmpty(user.getRoles())) {
-//            authorities = new ArrayList<>();
-//            user.getRoles().forEach(role -> authorities.add(new SimpleGrantedAuthority(role)));
-//        }
+        if (CollectionUtil.isNotEmpty(roles)) {
+            authorities= new ArrayList<>();
+            authorities.addAll(roles);
+        }
     }
 
     @Override
