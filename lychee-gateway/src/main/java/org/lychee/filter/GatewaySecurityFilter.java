@@ -47,26 +47,6 @@ public class GatewaySecurityFilter implements GlobalFilter, Ordered {
         ServerHttpRequest request = exchange.getRequest();
         ServerHttpResponse response = exchange.getResponse();
 
-//        // 线上环境请求拦截处理，实际请自行删除下面代码块
-//        {
-//            String requestPath = request.getPath().pathWithinApplication().value();
-//            if (env.equals("prod")) {
-//                String methodValue = request.getMethodValue();
-//                if (SecurityConstant.PROD_FORBID_METHODS.contains(methodValue)) { // PUT和DELETE方法禁止
-//                    // 是否需要放行的请求路径
-//                    boolean isPermitPath = SecurityConstant.PROD_PERMIT_PATHS.stream().anyMatch(permitPath ->requestPath.contains(permitPath));
-//                    if (!isPermitPath) {
-//                        return ResponseUtils.writeErrorInfo(response, ResultCode.FORBIDDEN_OPERATION);
-//                    }
-//                } else if(methodValue.equals("POST")){
-//                    // 是否禁止放行的请求路径
-//                    boolean isForbiddenPath = SecurityConstant.PROD_FORBID_PATHS.stream().anyMatch(forbiddenPath -> requestPath.contains(forbiddenPath));
-//                    if (isForbiddenPath) {
-//                        return ResponseUtils.writeErrorInfo(response, ResultCode.FORBIDDEN_OPERATION);
-//                    }
-//                }
-//            }
-//        }
 
         // 非JWT放行不做后续解析处理
         String token = request.getHeaders().getFirst(SecurityConstant.AUTHORIZATION_KEY);
