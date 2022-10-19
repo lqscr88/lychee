@@ -16,6 +16,7 @@
         <module>lychee-service-api</module>
         <module>lychee-tools</module>
         <module>lychee-core</module>
+        <module>lychee-swagger</module>
     </modules>
 
 

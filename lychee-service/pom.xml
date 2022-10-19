@@ -19,6 +19,13 @@
         <maven.compiler.source>8</maven.compiler.source>
         <maven.compiler.target>8</maven.compiler.target>
     </properties>
+    <dependencies>
+        <dependency>
+            <groupId>org.lychee</groupId>
+            <artifactId>lychee-core-swagger</artifactId>
+            <version>1.0.0</version>
+        </dependency>
+    </dependencies>
 
 
     <build>

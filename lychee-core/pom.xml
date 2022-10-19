@@ -13,7 +13,8 @@
 
 	<modules>
 		<module>lychee-core-boot</module>
-	</modules>
+        <module>lychee-core-swagger</module>
+    </modules>
 
 	<properties>
 		<maven.compiler.source>8</maven.compiler.source>
